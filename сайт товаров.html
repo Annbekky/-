@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Полка материалов</title>
+    
+    <!-- Подключаем красивый шрифт (Nunito) для детского стиля -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- НАСТРОЙКИ ДИЗАЙНА (CSS) --- */
+        
+        :root {
+            /* Цветовая палитра: Нежно-фиолетовая */
+            --primary-color: #9b59b6;
+            --primary-hover: #8e44ad;
+            --bg-color: #f3e5f5;
+            --card-bg: #ffffff;
+            --text-color: #4a235a;
+            --price-color: #27ae60;
+            --menu-bg: rgba(255, 255, 255, 0.95);
+            --menu-hover: #f8f4ff;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Шапка сайта с волшебным градиентом */
+        header {
+            background: linear-gradient(
+                -45deg, 
+                #ee7752, 
+                #e73c7e, 
+                #23a6d5, 
+                #c33764, 
+                #9b59b6, 
+                #e0c3fc
+            );
+            background-size: 400% 400%;
+            animation: magicalGradient 15s ease infinite;
+            padding: 10px 15px; 
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes magicalGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-betw;
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+.header-title {
+    flex-grow: 1;
+    text-align: center;
+}
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2),
+                        0 0 15px rgba(255, 255, 255, 0.4);
+            background: white;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+			justify-self: start;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3),
+                        0 0 40px rgba(255, 255, 255, 0.6);
+        }
+
+        .header-text {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+			justify-self: center;
+        }
+
+        h1 {
+            margin: 0 0 8px 0;
+            color: #ffffff;
+            font-weight: 800;
+			font-size: 3rem;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                         0 0 40px rgba(255, 255, 255, 0.6),
+                         0 0 60px rgba(255, 255, 255, 0.4);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+		.search-container {
+    width: 250px;
+    flex-shrink: 0;
+}
+
+#search-input {
+    width: 100%;
+    padding: 8px 16px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+#search-input:focus {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 255, 255, 0.6);
+    transform: scale(1.02);
+}
+
+        @keyframes titleGlow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                             0 0 30px rgba(255, 255, 255, 0.6);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(255, 255, 255, 1),
+                             0 0 50px rgba(255, 255, 255, 0.8),
+                             0 0 70px rgba(255, 255, 255, 0.6);
+            }
+        }
+
+        
+
+        /* === МЕНЮ КАТЕГОРИЙ === */
+        .category-menu {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+            padding:0;
+            background:transparent;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .category-btn {
+            padding: 6px 12px;
+            background: white;
+            border: 2px solid var(--primary-color);
+            border-radius: 16px;
+            color: var(--primary-color);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(155, 89, 182, 0.4);
+        }
+
+        /* Выпадающее меню для "Тематические" */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            min-width: 160px;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            padding: 6px 0;
+            z-index: 1000;
+            margin-top: 5px;
+            border: 2px solid var(--primary-color);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            animation: slideDown 0.2s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 8px 16px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 13px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .dropdown-content a:hover {
+            background: var(--menu-hover);
+            color: var(--primary-color);
+            padding-left: 25px;
+        }
+
+        .dropdown-content a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Стрелочка для dropdown */
+        .dropdown-btn::after {
+            content: " ▼";
+            font-size: 10px;
+            vertical-align: middle;
+        }
+
+        /* Сетка товаров */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.2);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            background-color: #eee;
+        }
+
+        .product-info {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin: 0 0 10px 0;
+            color: var(--primary-color);
+        }
+
+        .product-desc {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--price-color);
+        }
+
+        .buy-btn-small {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .buy-btn-small:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Сообщение "ничего не найдено" */
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 1.1rem;
+            grid-column: 1 / -1;
+        }
+
+        /* --- МОДАЛЬНОЕ ОКНО --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #aaa;
+            z-index: 10;
+        }
+
+        .close-modal:hover {
+            color: var(--primary-color);
+        }
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background: #f9f9f9;
+        }
+
+        .carousel-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 50%;
+            color: var(--primary-color);
+        }
+
+        .prev { left: 10px; }
+        .next { right: 10px; }
+
+        .modal-details {
+            padding: 30px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .modal-price {
+            font-size: 1.5rem;
+            color: var(--price-color);
+            font-weight: 800;
+            margin: 10px 0;
+        }
+
+        .modal-desc {
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 25px;
+        }
+
+        .buy-btn-big {
+            display: block;
+            width: 60%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .buy-btn-big:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+            
+            h1 {
+                font-size: 1.3rem;
+            }
+			.search-container {
+        width: 80%;
+        max-width: 150px;
+    }
+    
+    #search-input {
+        padding: 6px 8px;
+        font-size: 8px;
+    }
+            
+            .category-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .category-btn {
+                padding: 6px 12px;
+                font-size: 8px;
+            }
+            
+            .carousel { height: 250px; }
+            .modal-title { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ШАПКА -->
+    <header>
+        <div class="header-content">
+            <!-- Логотип -->
+            <a href="https://t.me/eng_with_anne" target="_blank" class="logo-link" title="Перейти в канал">
+                <img src="https://i.postimg.cc/HWyLNMJM/logo.png" alt="Логотип" class="logo">
+            </a>
+            
+            <!-- Заголовок и поиск -->
+            <div class="header-text">
+                <h1>Полка Материалов</h1>
+                </div>
+    
+    <!-- Поиск справа -->
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Поиск...">
+    </div>
+</div>
+        
+        <!-- МЕНЮ КАТЕГОРИЙ -->
+        <nav class="category-menu">
+            <button class="category-btn active" data-category="all">Все</button>
+            
+            <div class="dropdown">
+                <button class="category-btn dropdown-btn">Тематические</button>
+                <div class="dropdown-content">
+                    <a data-category="christmas">🎄 Рождество</a>
+                    <a data-category="spring">🌸 Весна</a>
+                    <a data-category="autumn">🍂 Осень</a>
+                    <a data-category="summer">☀️ Лето</a>
+                    <a data-category="easter">🐰 Пасха</a>
+                    <a data-category="valentine">💝 День Святого Валентина</a>
+                    <a data-category="mothers-day">🌷 День Матери</a>
+                    <a data-category="space">🚀 Космос</a>
+                </div>
+            </div>
+            
+            <button class="category-btn" data-category="kids">👶 Дети</button>
+            <button class="category-btn" data-category="teens">🧑‍🎓 Подростки</button>
+        </nav>
+    </header>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <div class="container">
+        <div class="products-grid" id="products-container">
+            <!-- Товары добавляются через JavaScript -->
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            
+            <div class="carousel">
+                <button class="carousel-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+                <img src="" alt="Товар" class="carousel-img" id="modal-img">
+                <button class="carousel-btn next" onclick="changeSlide(1)">&#10095;</button>
+            </div>
+
+            <div class="modal-details">
+                <h2 class="modal-title" id="modal-title">Название товара</h2>
+                <div class="modal-price" id="modal-price">0 ₽</div>
+                <p class="modal-desc" id="modal-desc">Описание товара...</p>
+                <a href="#" class="buy-btn-big" id="modal-buy-link" target="_blank">Купить урок</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- СКРИПТЫ -->
+    <script>
+        /* 
+           ================================================================
+           ЗДЕСЬ ВЫ РЕДАКТИРУЕТЕ СВОИ ТОВАРЫ
+           Добавьте поле "category" для фильтрации
+           ================================================================
+        */
+        const products = [
+            {
+                id: 1,
+                title: "Животные (Animal habitats)",
+                shortDesc: "Сет из 4-х уроков для младших школьников",
+                fullDesc: "Сет из 4-х уроков для младших школьников, которые можно провести сразу (60-90 мин), а можно разбить на части ( если проводите с дошколятами ) <br><b>СОДЕРЖАНИЕ</b>: <br>вспомним или выучим всех нужных животных, отгадываем загадки, <br>познакомимся со словами, обозначающими места обитания, <br>отработаем вопросы с Do и краткие ответы, <br>почитаем и послушаем информацию про животных и их места обитания , <br>все объединим, поиграем и обобщим говорением <br><b>Формат</b>: Genially <br><b>Уровень</b>: А1-kids",
+                price: "550 ₽",
+                category: "kids",  // Категория: kids, teens, christmas, spring, autumn, summer, easter, valentine, mothers-day, space
+                buyLink: "https://t.me/eng_with_anne/450",
+                images: [
+                    "https://i.postimg.cc/m2qPdFGj/й.jpg",
+                    "https://i.postimg.cc/PrcC68kK/к.jpg",
+                    "https://i.postimg.cc/023ztJqC/у.jpg",
+                    "https://i.postimg.cc/BQyjh1Gg/ц.jpg"
+                ]
+            },
+            {
+                id: 2,
+                title: "Рождественский урок (Christmas)",
+                shortDesc: "Учим праздничные слова и песни к Рождеству.",
+                fullDesc: "Волшебный урок с песнями, играми и поделками. Идеально для декабря!",
+                price: "550 ₽",
+                category: "christmas",
+                buyLink: "#",
+                images: [
+                    "https://via.placeholder.com/800x400/e74c3c/ffffff?text=Christmas+Lesson",
+                    "https://via.placeholder.com/800x400/c0392b/ffffff?text=Santa+Cards"
+                ]
+            },
+            {
+                id: 3,
+                title: "Космос: Планеты (Space)",
+                shortDesc: "Путешествие по солнечной системе на английском.",
+                fullDesc: "Урок для любознательных! Изучаем названия планет, звёзд и космических объектов.",
+                price: "600 ₽",
+                category: "space",
+                buyLink: "#",
+                images: [
+                    "https://via.placeholder.com/800x400/3498db/ffffff?text=Space+Lesson",
+                    "https://via.placeholder.com/800x400/2980b9/ffffff?text=Planets"
+                ]
+            },
+            {
+                id: 4,
+                title: "Весенние цветы (Spring)",
+                shortDesc: "Учим названия цветов и весенние слова.",
+                fullDesc: "Яркий урок с карточками, раскрасками и играми на свежем воздухе.",
+                price: "450 ₽",
+                category: "spring",
+                buyLink: "#",
+                images: [
+                    "https://via.placeholder.com/800x400/2ecc71/ffffff?text=Spring+Flowers",
+                    "https://via.placeholder.com/800x400/27ae60/ffffff?text=Coloring+Pages"
+                ]
+            },
+            {
+                id: 5,
+                title: "Грамматика для подростков",
+                shortDesc: "Present Simple vs Present Continuous — просто и понятно.",
+                fullDesc: "Урок для подростков 10-14 лет. Много практики, игр и современных примеров.",
+                price: "650 ₽",
+                category: "teens",
+                buyLink: "#",
+                images: [
+                    "https://via.placeholder.com/800x400/9b59b6/ffffff?text=Grammar+Teens",
+                    "https://via.placeholder.com/800x400/8e44ad/ffffff?text=Exercises"
+                ]
+            },
+        ];
+
+        /* ================================================================
+           ТЕХНИЧЕСКАЯ ЧАСТЬ
+           ================================================================ */
+
+        const container = document.getElementById('products-container');
+        const searchInput = document.getElementById('search-input');
+        const categoryBtns = document.querySelectorAll('.category-btn, .dropdown-content a');
+
+        let currentCategory = 'all';
+        let currentSearch = '';
+
+        // 1. Отображение товаров
+        function renderProducts(items) {
+            container.innerHTML = '';
+            
+            if (items.length === 0) {
+                container.innerHTML = '<div class="no-results">🔍 Ничего не найдено. Попробуйте изменить поиск или категорию.</div>';
+                return;
+            }
+            
+            items.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${product.images[0]}" alt="${product.title}" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-desc">${product.shortDesc}</p>
+                        <div class="product-footer">
+                            <span class="price">${product.price}</span>
+                            <button class="buy-btn-small" onclick="openModal(${product.id})">Подробнее</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // 2. Фильтрация: поиск + категория
+        function filterProducts() {
+            const filtered = products.filter(p => {
+                const matchesSearch = p.title.toLowerCase().includes(currentSearch) || 
+                                     p.shortDesc.toLowerCase().includes(currentSearch);
+                const matchesCategory = currentCategory === 'all' || p.category === currentCategory;
+                return matchesSearch && matchesCategory;
+            });
+            renderProducts(filtered);
+        }
+
+        // 3. Поиск
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value.toLowerCase();
+            filterProducts();
+        });
+
+        // 4. Переключение категорий
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Убираем активный класс со всех кнопок
+                document.querySelectorAll('.category-btn, .dropdown-content a').forEach(b => b.classList.remove('active'));
+                
+                // Добавляем активный класс нажатой кнопке
+                this.classList.add('active');
+                
+                // Получаем категорию
+                currentCategory = this.dataset.category;
+                
+                // Если нажали на подкатегорию, обновляем кнопку "Тематические"
+                if (this.closest('.dropdown-content')) {
+                    document.querySelector('.dropdown-btn').classList.add('active');
+                }
+                
+                filterProducts();
+            });
+        });
+
+        // 5. Модальное окно
+        const modal = document.getElementById('product-modal');
+        const modalImg = document.getElementById('modal-img');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-desc');
+        const modalPrice = document.getElementById('modal-price');
+        const modalBuyLink = document.getElementById('modal-buy-link');
+
+        let currentProduct = null;
+        let currentImageIndex = 0;
+
+        function openModal(id) {
+            currentProduct = products.find(p => p.id === id);
+            if (!currentProduct) return;
+
+            currentImageIndex = 0;
+            modalTitle.innerText = currentProduct.title;
+            modalDesc.innerHTML = currentProduct.fullDesc;
+            modalPrice.innerText = currentProduct.price;
+            modalBuyLink.href = currentProduct.buyLink;
+            
+            updateCarouselImage();
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) closeModal();
+        }
+
+        // 6. Карусель
+        function changeSlide(n) {
+            if (!currentProduct) return;
+            currentImageIndex += n;
+            
+            if (currentImageIndex >= currentProduct.images.length) {
+                currentImageIndex = 0;
+            } else if (currentImageIndex < 0) {
+                currentImageIndex = currentProduct.images.length - 1;
+            }
+            updateCarouselImage();
+        }
+
+        function updateCarouselImage() {
+            if (currentProduct?.images?.length > 0) {
+                modalImg.src = currentProduct.images[currentImageIndex];
+            }
+        }
+
+        // Запуск
+        renderProducts(products);
+    </script>
+</body>
+</html>
