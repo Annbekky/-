@@ -1386,13 +1386,14 @@ function spinWheel() {
 function showResult(winner) {
     const resultDiv = document.getElementById('wheel-result');
     resultDiv.className = 'wheel-result win';
-    resultDiv.innerHTML = `🎉 Поздравляем! Ваш приз: <br>
-        <strong style="font-size: 1.4rem; color: #27ae60;">${winner.label}</strong>
-        <br><br>
-        <span style="font-size: 0.9rem; color: #e74c3c;">
-            📸 Не забудьте сделать скрин! Промокод: BunnyGift Скидка действует только один раз!
-        </span>
-    `;
+    resultDiv.innerHTML = `
+    <div style="font-size: 1rem; color: #27ae60; font-weight: 700;">
+        🎉 Поздравляем! Ваш приз: ${winner.label}
+    </div>
+    <div style="margin-top: 8px; font-size: 0.85rem; color: #e74c3c;">
+        📸 Не забудьте сделать скрин! Промокод: <strong>BunnyGift</strong> Скидка действует только один раз!
+    </div>
+`;
     
     // Отключаем кнопку после использования
     document.getElementById('spin-btn').disabled = true;
